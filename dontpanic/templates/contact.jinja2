@@ -1,0 +1,35 @@
+{% extends "base.jinja2" %}
+{% block contact_highlight %}class="active"{% endblock %}
+
+{% block header %}
+<form class="form-signin">
+  <h2 class="form-signin-heading">Contact Me</h2>
+  <input type="text" class="input-block-level" placeholder="Email address">
+  <input type="textarea" class="input-block-level" placeholder="Message">
+  <button class="btn btn-large btn-primary" type="submit">Send</button>
+</form>
+{% endblock %}
+
+{% block body %}
+<div class="row-fluid marketing">
+  <div class="span12">
+    <p>
+      <a class="btn btn-primary btn-small" href="mailto:db@davidbrenneman.com">
+        Email &raquo;
+      </a>
+    </p>
+
+    <p>
+      <a class="btn btn-primary btn-small" href="https://twitter.com/davidbrenneman" target="_blank">
+        Twitter &raquo;
+      </a>
+    </p>
+
+    <p>
+      <a class="btn btn-primary btn-small" href="http://github.com/dbrenneman" target="_blank">
+        Github &raquo;
+      </a>
+    </p>
+  </div>
+</div>
+{% endblock %}
