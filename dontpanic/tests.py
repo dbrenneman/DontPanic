@@ -25,9 +25,27 @@ class TestMyView(unittest.TestCase):
         DBSession.remove()
         testing.tearDown()
 
-    def test_it(self):
-        from .views import my_view
+    def test_about_view(self):
+        from .views import about_view
         request = testing.DummyRequest()
-        info = my_view(request)
+        info = about_view(request)
+        self.assertEqual(info['page_title'], 'About')
+
+    def test_blog_view(self):
+        from .views import blog_view
+        request = testing.DummyRequest()
+        info = blog_view(request)
+        self.assertEqual(info['page_title'], 'Blog')
         self.assertEqual(info['one'].title, 'one')
-        self.assertEqual(info['project'], 'DontPanic')
+
+    def test_contact_view(self):
+        from .views import contact_view
+        request = testing.DummyRequest()
+        info = contact_view(request)
+        self.assertEqual(info['page_title'], 'Contact')
+
+    def test_home_view(self):
+        from .views import home_view
+        request = testing.DummyRequest()
+        info = home_view(request)
+        self.assertEqual(info['page_title'], 'Home')

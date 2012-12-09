@@ -27,7 +27,6 @@ def blog_view(request):
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'page_title': 'Blog',
             'one': one,
-            'project': 'DontPanic',
             'year': YEAR,
            }
 
