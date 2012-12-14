@@ -12,13 +12,6 @@ from .models import (
 YEAR = datetime.datetime.now().year
 
 
-@view_config(route_name='about', renderer='about.jinja2')
-def about_view(request):
-    return {'page_title': 'About',
-            'year': YEAR,
-           }
-
-
 @view_config(route_name='blog', renderer='blog.jinja2')
 def blog_view(request):
     try:
@@ -27,13 +20,6 @@ def blog_view(request):
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'page_title': 'Blog',
             'one': one,
-            'year': YEAR,
-           }
-
-
-@view_config(route_name='contact', renderer='contact.jinja2')
-def contact_view(request):
-    return {'page_title': 'Contact',
             'year': YEAR,
            }
 

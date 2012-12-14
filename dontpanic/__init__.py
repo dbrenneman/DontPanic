@@ -17,8 +17,6 @@ def main(global_config, **settings):
     config.include('pyramid_jinja2')
     config.add_static_view('assets', 'assets', cache_max_age=3600)
     config.add_route('home', '/')
-    config.add_route('about', '/about')
     config.add_route('blog', '/blog')
-    config.add_route('contact', '/contact')
     config.scan()
     return config.make_wsgi_app()

@@ -1,8 +1,30 @@
 {% extends "base.jinja2" %}
-{% block title %}Home{% endblock %}
 {% block home_highlight %}class="active"{% endblock %}
-{% block body %}
+
+{% block header %}
 <div class="jumbotron">
-  <p>Open source hacker, runner, climber, backpacker, snowboarder, yogi and traveler.</p>
+  <h2>Custom software solutions.</h2>
+  <p class="lead">I provide end to end solutions to problems, often via code.</p>
 </div>
 {% endblock %}
+
+{% block body %}
+<div class="row-fluid panic">
+  <div class="span6">
+    <h4><i class="icon-cogs"></i> Web Apps</h4>
+    <p>Whether it is a customer facing applicaion, an internal tool, or an API, I will make your vision a reality. It's what I love to do.</p>
+
+    <h4><i class="icon-reorder"></i> Full-Stack Solutions</h4>
+    <p>I write both code and markup. I provide semantic HTML5, CSS3 and JavaScript development on the front end and Python on the back end. I work with skilled designers who provide mockups that I then bring to life.</p>
+  </div>
+
+  <div class="span6">
+    <h4><i class="icon-cloud"></i> Infrastructure</h4>
+    <p>I automate provisioning and scaling of your server infrastructure so that you can focus on running your business.</p>
+
+    <h4><i class="icon-unlock"></i> Open Source</h4>
+    <p>I am an active participant in the Python, Django and Plone open source communities, bridging the gap between industry experience and cutting edge technologies.</p>
+  </div>
+</div>
+{% endblock %}
+

@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Don't Panic - {{ page_title }}</title>
+    <title>{{ page_title }} | Don't Panic</title>
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="keywords" content="david brenneman python django pyramid d3.js iOS iPhone javascript html5 web mobile application consulting software engineer developer hacker maker geek devops cloud aws openstack linux open source" />
     <meta name="description" content="david brenneman mobile web application consulting" />
@@ -25,7 +25,6 @@
         margin: 30px 0;
       }
 
-      /* Main marketing message and sign up button */
       .jumbotron {
         margin: 60px 0;
         text-align: center;
@@ -39,19 +38,18 @@
         padding: 14px 24px;
       }
 
-      /* Supporting marketing content */
-      .marketing {
+      .panic {
         margin: 60px 0;
       }
-      .marketing p + h4 {
+      .panic p + h4 {
         margin-top: 28px;
       }
 
       .nav-pills > .active > a, .nav-pills > .active > a:hover {
-        background-color: grey;
+        background-color: #0D96D2;
       }
       .nav-pills a {
-        color: grey;
+        color: #0D96D2;
       }
     </style>
     <link rel="stylesheet" href="{{ request.static_url('dontpanic:assets/css/bootstrap-responsive.min.css') }}" type="text/css" media="screen" charset="utf-8" />
@@ -59,24 +57,22 @@
   </head>
   <body>
 
-    <div class="container-narrow">
+    <div class="container-narrow well">
 
       <div class="masthead">
         <ul class="nav nav-pills pull-right">
-          <li {% block home_highlight %}{% endblock %}><a href="/"><i class="icon-home"></i> Home</a></li>
-          <li {% block about_highlight %}{% endblock %}><a href="/about"><i class="icon-question-sign"></i> About</a></li>
-          <li {% block blog_highlight %}{% endblock %}><a href="/blog"><i class="icon-rss"></i> Blog</a></li>
-          <li {% block contact_highlight %}{% endblock %}><a href="/contact"><i class="icon-envelope-alt"></i> Contact</a></li>
+          <li {% block home_highlight %}{% endblock %}><a href="/"><i class="icon-home"></i>Home</a></li>
+          <li {% block blog_highlight %}{% endblock %}><a href="/blog"><i class="icon-comments"></i>Blog</a></li>
         </ul>
         <h3 class="muted">David Brenneman</h3>
       </div>
       {% block header %}{% endblock %}
       {% block body %}{% endblock %}
       <footer>
-        <a href="https://twitter.com/davidbrenneman" class="twitter-follow-button" data-show-count="false">Follow @davidbrenneman</a>
-        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-        </script>
-
+        <ul>
+          <li><i class="icon-envelope-alt"></i><a href="mailto:db@davidbrenneman.com">db@davidbrenneman.com</a></li>
+          <li><i class="icon-twitter"></i><a href="https://twitter.com/davidbrenneman">@davidbrenneman</a></li>
+        </ul>
         <p>&copy; David Brenneman {{ year }}</p>
       </footer>
 
