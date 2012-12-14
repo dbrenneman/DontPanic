@@ -1,6 +1,5 @@
 import datetime
-from pyramid.response import Response
-from pyramid.view import view_config
+
 
 from sqlalchemy.exc import DBAPIError
 
@@ -15,7 +14,19 @@ YEAR = datetime.datetime.now().year
 @view_config(route_name='blog', renderer='blog.jinja2')
 def blog_view(request):
     try:
-        one = DBSession.query(Article).filter(Article.title=='one').first()
+        articles = DBSession.query(Article).all()
+    except DBAPIError:
+        return Response(conn_err_msg, content_type='text/plain', status_int=500)
+    return {'page_title': 'Blog',
+            'one': one,
+            'year': YEAR,
+           }
+
+
+@view_config(route_name='blog_page', renderer='blog_page.jinja2')
+def blog_page_view(request):
+    try:
+        articles = DBSession.query(Article).all()
     except DBAPIError:
         return Response(conn_err_msg, content_type='text/plain', status_int=500)
     return {'page_title': 'Blog',
@@ -29,20 +40,3 @@ def home_view(request):
     return {'page_title': 'Home',
             'year': YEAR,
            }
-
-
-conn_err_msg = """\
-Pyramid is having a problem using your SQL database.  The problem
-might be caused by one of the following things:
-
-1.  You may need to run the "initialize_DontPanic_db" script
-    to initialize your database tables.  Check your virtual 
-    environment's "bin" directory for this script and try to run it.
-
-2.  Your database server may not be running.  Check that the
-    database server referred to by the "sqlalchemy.url" setting in
-    your "development.ini" file is running.
-
-After you fix the problem, please restart the Pyramid application to
-try it again.
-"""
