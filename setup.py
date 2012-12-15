@@ -8,7 +8,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
     'Flask',
-    'SQLAlchemy',
+    'Flask-SqlAlchemy',
     ]
 
 setup(name='DontPanic',

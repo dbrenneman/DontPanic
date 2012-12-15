@@ -1,42 +1,30 @@
 import datetime
+from . import app
 
-
-from sqlalchemy.exc import DBAPIError
-
-from .models import (
-    DBSession,
-    Article,
-    )
+from flask import render_template
 
 YEAR = datetime.datetime.now().year
 
 
-@view_config(route_name='blog', renderer='blog.jinja2')
-def blog_view(request):
-    try:
-        articles = DBSession.query(Article).all()
-    except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'page_title': 'Blog',
-            'one': one,
-            'year': YEAR,
-           }
-
-
-@view_config(route_name='blog_page', renderer='blog_page.jinja2')
-def blog_page_view(request):
-    try:
-        articles = DBSession.query(Article).all()
-    except DBAPIError:
-        return Response(conn_err_msg, content_type='text/plain', status_int=500)
-    return {'page_title': 'Blog',
-            'one': one,
-            'year': YEAR,
-           }
-
-
-@view_config(route_name='home', renderer='home.jinja2')
+@app.route('/')
 def home_view(request):
-    return {'page_title': 'Home',
-            'year': YEAR,
-           }
+    return render_template('home.jinja2',
+                           title='Home',
+                           year=YEAR,
+    )
+
+
+@app.route('/blog')
+def blog_view(request):
+    return render_template('blog.jinja2',
+                           title='Blog',
+                           year=YEAR,
+    )
+
+
+@app.route('/blog/<slug>')
+def blog_page_view(request):
+    return render_template('blog_page.jinja2',
+                           title='Blog',
+                           year=YEAR,
+    )
