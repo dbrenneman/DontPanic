@@ -8,8 +8,8 @@
     <meta name="description" content="david brenneman mobile web application consulting" />
     <meta name="author" content="David Brenneman">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="{{ request.static_url('dontpanic:assets/img/favicon.ico') }}" />
-    <link rel="stylesheet" href="{{ request.static_url('dontpanic:assets/css/bootstrap.min.css') }}" type="text/css" media="screen" charset="utf-8" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" media="screen" charset="utf-8" />
     <style type="text/css">
       body {
         padding-top: 20px;
@@ -52,8 +52,8 @@
         color: #0D96D2;
       }
     </style>
-    <link rel="stylesheet" href="{{ request.static_url('dontpanic:assets/css/bootstrap-responsive.min.css') }}" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="{{ request.static_url('dontpanic:assets/css/font-awesome.css') }}" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" type="text/css" media="screen" charset="utf-8" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" type="text/css" media="screen" charset="utf-8" />
   </head>
   <body>
 
@@ -81,7 +81,7 @@
     <!-- javascript
     ================================================== -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-    <script src="{{ request.static_url('dontpanic:assets/js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
 
   </body>
 </html>

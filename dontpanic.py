@@ -8,8 +8,8 @@
     :copyright: (c) 2012 by David Brenneman
     :license: BSD, see LICENSE for more details.
 """
-import datetime
 from __future__ import with_statement
+import datetime
 import os
 from sqlite3 import dbapi2 as sqlite3
 from flask import Flask, request, session, g, redirect, url_for, abort, \
