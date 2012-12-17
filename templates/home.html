@@ -1,14 +1,11 @@
 {% extends "base.html" %}
-{% block home_highlight %}class="active"{% endblock %}
+{% block home_highlight %}active{% endblock %}
 
-{% block header %}
+{% block content %}
 <div class="jumbotron">
   <h2>Custom software solutions.</h2>
-  <p class="lead">I provide end to end solutions to problems, often via code.</p>
+  <h3 class="lead">I provide end to end solutions to problems, often via code.</h3>
 </div>
-{% endblock %}
-
-{% block body %}
 <div class="row-fluid panic">
   <div class="span6">
     <h4><i class="icon-cogs"></i> Web Apps</h4>
@@ -23,7 +20,7 @@
     <p>I automate provisioning and scaling of your server infrastructure so that you can focus on running your business.</p>
 
     <h4><i class="icon-unlock"></i> Open Source</h4>
-    <p>I am an active participant in the Python, Django and Plone open source communities, bridging the gap between industry experience and cutting edge technologies.</p>
+    <p>I am an active participant in the Python and D3.js open source communities, bridging the gap between industry experience and cutting edge technologies.</p>
   </div>
 </div>
 {% endblock %}

@@ -1,0 +1,62 @@
+body {
+  padding-top: 20px;
+  padding-bottom: 40px;
+}
+
+.container-narrow {
+  margin: 20px auto;
+  max-width: 750px;
+}
+
+.container-narrow > hr {
+  margin: 30px 0;
+}
+
+.jumbotron {
+  margin: 60px 0;
+  text-align: center;
+}
+
+.jumbotron h1 {
+  font-size: 72px;
+  line-height: 1;
+}
+
+.jumbotron .btn {
+  font-size: 21px;
+  padding: 14px 24px;
+}
+
+.panic {
+  margin: 60px 0;
+}
+
+.panic p + h4 {
+  margin-top: 28px;
+}
+
+.nav-pills > .active > a, .nav-pills > .active > a:hover {
+  background-color: #0D96D2;
+}
+
+.nav-pills a {
+  color: #0D96D2;
+}
+
+footer {
+  max-width: 720px;;
+}
+
+footer ul {
+  list-style-type: none;
+  white-space:nowrap;
+  float: right;
+  padding: 0;
+  margin: 0;
+}
+
+footer li {
+ display:inline;
+ padding: 10px;
+}
+

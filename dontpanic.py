@@ -58,7 +58,7 @@ def close_db_connection(exception):
 
 @app.route('/')
 def show_homepage():
-    return render_template('home.html', year=YEAR)
+    return render_template('home.html', page_title='Home', year=YEAR)
 
 
 @app.route('/blog')
@@ -66,15 +66,19 @@ def show_entries():
     db = get_db()
     cur = db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries, year=YEAR)
+    return render_template('blog.html', entries=entries, page_title='Blog', year=YEAR)
 
 
 @app.route('/blog/<slug>')
 def show_entry():
     db = get_db()
-    cur = db.execute('select slug, title, text from entries order by id desc where slug=%s' % slug)
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries, year=YEAR)
+    cur = db.execute(
+        'select slug, title, text from entries order by id desc where slug=%s' % slug)
+    entry = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
+    return render_template('blog.html',
+                           entry=entry,
+                           page_title=entry.title,
+                           year=YEAR)
 
 
 @app.route('/blog/add', methods=['POST'])

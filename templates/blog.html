@@ -1,15 +1,15 @@
 {% extends "base.html" %}
-{% block blog_highlight %}class="active"{% endblock %}
+{% block blog_highlight %}active{% endblock %}
 
-{% block header %}
+{% block content %}
 <header class="jumbotron subhead">
-  <h2>Title Goes Here</h2>
-  <p class="lead">Subtitle Here.</p>
+  {% if entries %}
+  <h2>{{ entries[0].title }}</h2>
+  <h3 class="lead">{{ entries[0].subtitle }}</h3>
+  {% endif %}
 </header>
-{% endblock %}
 
-{% block body %}
-<div class="row">
+<div class="container-narrow">
 <p>
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis et sem ligula, in condimentum neque. Suspendisse facilisis viverra sem, consectetur dignissim ante varius in. Nulla pellentesque molestie lobortis. Maecenas vitae elit vel odio molestie aliquet. Suspendisse adipiscing scelerisque ullamcorper. Maecenas malesuada lacinia turpis at lacinia. Vivamus commodo euismod imperdiet. Maecenas in ligula elit. Vestibulum adipiscing mauris vitae ipsum suscipit laoreet a vel turpis. Cras fringilla, eros ac tincidunt pellentesque, metus lectus hendrerit nisi, vitae interdum lacus erat imperdiet odio.
 </p>
