@@ -49,7 +49,6 @@ footer {
 
 footer ul {
   list-style-type: none;
-  white-space:nowrap;
   float: right;
   padding: 0;
   margin: 0;
@@ -58,5 +57,5 @@ footer ul {
 footer li {
  display:inline;
  padding: 10px;
+ white-space: pre;
 }
-
