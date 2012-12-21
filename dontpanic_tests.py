@@ -41,16 +41,16 @@ class DontPanicTestCase(unittest.TestCase):
 
     def test_empty_db(self):
         """Start with a blank database."""
-        rv = self.app.get('/')
+        rv = self.app.get('/blog')
         assert 'No entries here so far' in rv.data
 
     def test_login_logout(self):
-        """Make sure login and logout works"""
+        """Make sure login and logout works."""
         rv = self.login(dontpanic.app.config['USERNAME'],
                         dontpanic.app.config['PASSWORD'])
-        assert 'You were logged in' in rv.data
+        assert '<form action="/blog/add" method=post class=add-entry>' in rv.data
         rv = self.logout()
-        assert 'You were logged out' in rv.data
+        assert '<form action="/blog/add" method=post class=add-entry>' not in rv.data
         rv = self.login(dontpanic.app.config['USERNAME'] + 'x',
                         dontpanic.app.config['PASSWORD'])
         assert 'Invalid username' in rv.data
@@ -59,14 +59,15 @@ class DontPanicTestCase(unittest.TestCase):
         assert 'Invalid password' in rv.data
 
     def test_messages(self):
-        """Test that messages work"""
+        """Test that posts work."""
         self.login(dontpanic.app.config['USERNAME'],
                    dontpanic.app.config['PASSWORD'])
-        rv = self.app.post('/add', data=dict(
+        rv = self.app.post('/blog/add', data=dict(
             title='<Hello>',
+            slug='hello',
             text='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
-        assert 'No entries here so far' not in rv.data
+        assert 'Unbelievable' not in rv.data
         assert '&lt;Hello&gt;' in rv.data
         assert '<strong>HTML</strong> allowed here' in rv.data
 

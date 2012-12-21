@@ -32,13 +32,13 @@ app.config.from_envvar('DONTPANIC_SETTINGS', silent=True)
 def init_db():
     """Creates the database tables."""
     with app.app_context():
-        db = get_db()
+        db = connect_db()
         with app.open_resource('schema.sql') as f:
             db.cursor().executescript(f.read())
         db.commit()
 
 
-def get_db():
+def connect_db():
     """Opens a new database connection if there is none yet for the
     current application context.
     """
@@ -46,6 +46,11 @@ def get_db():
     if not hasattr(top, 'sqlite_db'):
         top.sqlite_db = sqlite3.connect(app.config['DATABASE'])
     return top.sqlite_db
+
+
+@app.before_request
+def before_request():
+    g.db = connect_db()
 
 
 @app.teardown_appcontext
@@ -58,21 +63,19 @@ def close_db_connection(exception):
 
 @app.route('/')
 def show_homepage():
-    return render_template('home.html', page_title='Home', year=YEAR)
+    return render_template('home.html', year=YEAR)
 
 
 @app.route('/blog')
 def show_entries():
-    db = get_db()
-    cur = db.execute('select title, text from entries order by id desc')
+    cur = g.db.execute('select title, text from entries order by id desc')
     entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries, page_title='Blog', year=YEAR)
+    return render_template('blog.html', entries=entries, page_title='Blog | ', year=YEAR)
 
 
 @app.route('/blog/<slug>')
-def show_entry():
-    db = get_db()
-    cur = db.execute(
+def show_entry(slug):
+    cur = g.db.execute(
         'select slug, title, text from entries order by id desc where slug=%s' % slug)
     entry = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
     return render_template('blog.html',
@@ -85,10 +88,9 @@ def show_entry():
 def add_entry():
     if not session.get('logged_in'):
         abort(401)
-    db = get_db()
-    db.execute('insert into entries (title, text) values (?, ?)',
-               [request.form['title'], request.form['text']])
-    db.commit()
+    g.db.execute('insert into entries (title, slug, text) values (?, ?, ?)',
+                 [request.form['title'], request.form['slug'], request.form['text']])
+    g.db.commit()
     flash('New entry was successfully posted')
     return redirect(url_for('show_entries'))
 
