@@ -1,27 +1,29 @@
 {% extends "base.html" %}
+{% block page_title %}Blog | {% endblock %}
 {% block blog_highlight %}active{% endblock %}
 
 {% block content %}
-<div class="container-narrow">
   {% if session.logged_in %}
-    <form action="{{ url_for('add_entry') }}" method=post class=add-entry>
+    <form action="{{ url_for('add_article') }}" method=post class=add-article>
       <dl>
+        <dt>Author:
+        <dd><input type=text size=30 name=author>
         <dt>Title:
         <dd><input type=text size=30 name=title>
         <dt>Slug:
         <dd><input type=text size=30 name=slug>
         <dt>Text:
-        <dd><textarea name=text rows=5 cols=40></textarea>
+        <dd><textarea name=body rows=5 cols=40></textarea>
         <dd><input type=submit value=Share>
       </dl>
     </form>
+    <hr>
   {% endif %}
-  <ul class=entries>
-  {% for entry in entries %}
-    <li><h2>{{ entry.title }}</h2>{{ entry.text|safe }}
+  <ul class=articles>
+  {% for article in articles %}
+    <li><h2>{{ article.title }}</h2>{{ article.body|safe }}
   {% else %}
-    <li><em>Unbelievable.  No entries here so far!</em>
+    <li><em>Unbelievable.  No articles here so far!</em>
   {% endfor %}
   </ul>
-</div>
 {% endblock %}

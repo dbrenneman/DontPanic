@@ -67,32 +67,38 @@ def show_homepage():
 
 
 @app.route('/blog')
-def show_entries():
-    cur = g.db.execute('select title, text from entries order by id desc')
-    entries = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html', entries=entries, page_title='Blog | ', year=YEAR)
-
-
-@app.route('/blog/<slug>')
-def show_entry(slug):
-    cur = g.db.execute(
-        'select slug, title, text from entries order by id desc where slug=%s' % slug)
-    entry = [dict(title=row[0], text=row[1]) for row in cur.fetchall()]
-    return render_template('blog.html',
-                           entry=entry,
-                           page_title=entry.title,
-                           year=YEAR)
+def show_articles():
+    cur = g.db.execute('select title, body, published from articles order by published')
+    articles = [dict(title=row[0], body=row[1], published=row[2]) for row in cur.fetchall()]
+    return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
 
 
 @app.route('/blog/add', methods=['POST'])
-def add_entry():
+def add_article():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into entries (title, slug, text) values (?, ?, ?)',
-                 [request.form['title'], request.form['slug'], request.form['text']])
+    g.db.execute('insert into articles (author, title, slug, body) values (?, ?, ?, ?)',
+                 [request.form['author'], request.form['title'], request.form['slug'], request.form['body']])
     g.db.commit()
-    flash('New entry was successfully posted')
-    return redirect(url_for('show_entries'))
+    flash('New article was successfully posted')
+    return redirect(url_for('show_articles'))
+
+
+@app.route('/blog/<slug>')
+def show_article(slug):
+    query = "select title, body, published from articles where slug='%s' order by published desc"  % slug
+    cur = g.db.execute(query)
+    article = None
+    articles = [dict(title=row[0], body=row[1], published=row[2]) for row in cur.fetchall()]
+    if articles:
+        article = articles[0]
+        title = article['title']  + ' | '
+        return render_template('blog_page.html',
+                               article=article,
+                               page_title=title,
+                               year=YEAR)
+    else:
+        abort(404)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -106,7 +112,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_entries'))
+            return redirect(url_for('show_articles'))
     return render_template('login.html', error=error)
 
 
@@ -114,8 +120,17 @@ def login():
 def logout():
     session.pop('logged_in', None)
     flash('You were logged out')
-    return redirect(url_for('show_entries'))
+    return redirect(url_for('show_articles'))
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+@app.errorhandler(500)
+def application_error(e):
+    return render_template('500.html'), 500
 
 if __name__ == '__main__':
     init_db()

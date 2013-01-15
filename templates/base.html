@@ -2,7 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{{ page_title }}David Brenneman</title>
+    <title>{% block page_title %}{% endblock %}David Brenneman</title>
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class=flashes>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="keywords" content="david brenneman python django pyramid d3.js iOS iPhone javascript html5 web mobile application consulting software engineer developer hacker maker geek devops cloud aws openstack linux open source" />
     <meta name="description" content="david brenneman mobile web application consulting" />
@@ -10,42 +19,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="shortcut icon" href="{{ url_for('static', filename='img/favicon.ico') }}" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" type="text/css" media="screen" charset="utf-8" />
+    <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-responsive.min.css') }}" type="text/css" media="screen" charset="utf-8" /> -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" type="text/css" media="screen" charset="utf-8" />
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dontpanic.css') }}" type="text/css" media="screen" charset="utf-8" />
   </head>
   <body>
-    <div class="container-narrow well content">
-      <div class="masthead">
-        <hr>
-        <ul class="nav nav-pills pull-right">
+    <div class="container-narrow content">
+        <div class="navbar">
+        <ul class="nav  pull-right">
           <li class="{% block home_highlight %}{% endblock %}"><a href="/"><i class="icon-home"></i>Home</a></li>
           <li class="{% block blog_highlight %}{% endblock %}"><a href="/blog"><i class="icon-comments"></i>Blog</a></li>
           {% if session.logged_in %}
-          <li><a href="{{ url_for('logout') }}" class="btn btn-link">Logout</a></li>
+          <li><a href="{{ url_for('logout') }}"><i class="icon-remove-sign"></i>Logout</a></li>
           {% endif %}
         </ul>
-        <h3>David Brenneman</h3>
+        </div>
+      <div class="page-header">
+        <h2>David Brenneman</h2>
       </div>
       {% block content %}{% endblock %}
+      <hr>
+      <ul class="inline">
+        <li>
+          <a href="mailto:db@davidbrenneman.com"><i class="icon-envelope-alt"></i> db@davidbrenneman.com</a>
+        </li>
+        <li>
+          <a href="https://twitter.com/davidbrenneman"><i class="icon-twitter"></i> @davidbrenneman</a>
+        </li>
+        <li>
+          <a href="/">&copy; David Brenneman {{ year }}</a>
+        </li>
+      </ul>
     </div>
-    <div class="container-narrow">
-      <footer>
-        <ul>
-          <li>
-            <a href="mailto:db@davidbrenneman.com"><i class="icon-envelope-alt"></i> db@davidbrenneman.com</a>
-          </li>
-          <li>
-            <a href="https://twitter.com/davidbrenneman"><i class="icon-twitter"></i> @davidbrenneman</a>
-          </li>
-          <li>
-            <a href="/">&copy; David Brenneman {{ year }}</a>
-          </li>
-        </ul>
-      </footer>
-    </div>
-    <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script>
-    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>
+    <!-- <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js" type="text/javascript"></script> -->
+    <!-- <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script> -->
     <script type="text/javascript">
 
         var _gaq = _gaq || [];

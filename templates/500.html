@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block page_title %}Application Error{% endblock %}
+{% block body %}
+  <h1>Application Error</h1>
+  <p>Your request has failed. Nothing personal, just some error somewhere.
+  <p><a href="{{ url_for('show_homepage') }}">go somewhere nice.</a>
+{% endblock %}
