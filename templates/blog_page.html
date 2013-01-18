@@ -1,13 +1,13 @@
 {% extends "base.html" %}
-{% block page_title %}{{ entry.slug }} | {% endblock %}
+{% block page_title %}{{ article.slug }} | {% endblock %}
 {% block blog_highlight %}active{% endblock %}
 
 {% block content %}
 <header class="jumbotron subhead">
-  <h2>{{ entry.title }}</h2>
-  <p class="lead">{{ entry.subtitle }}</p>
+  <h2>{{ article.title }}</h2>
+  <p class="lead">{{ article.subtitle }}</p>
 </header>
-{{ entry.text }}
+{{ article.body }}
 <ul class="pager">
   <li class="previous">
     <a href="#">&larr; Older</a>

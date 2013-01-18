@@ -3,15 +3,6 @@
   <head>
     <meta charset="utf-8">
     <title>{% block page_title %}{% endblock %}David Brenneman</title>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul class=flashes>
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
     <meta name="keywords" content="david brenneman python django pyramid d3.js iOS iPhone javascript html5 web mobile application consulting software engineer developer hacker maker geek devops cloud aws openstack linux open source" />
     <meta name="description" content="david brenneman mobile web application consulting" />
@@ -37,6 +28,15 @@
       <div class="page-header">
         <h2>David Brenneman</h2>
       </div>
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <div class="alerts">
+            {% for message in messages %}
+              <div class="alert">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
       {% block content %}{% endblock %}
       <hr>
       <ul class="inline">

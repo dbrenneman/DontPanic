@@ -3,25 +3,9 @@
 {% block blog_highlight %}active{% endblock %}
 
 {% block content %}
-  {% if session.logged_in %}
-    <form action="{{ url_for('add_article') }}" method=post class=add-article>
-      <dl>
-        <dt>Author:
-        <dd><input type=text size=30 name=author>
-        <dt>Title:
-        <dd><input type=text size=30 name=title>
-        <dt>Slug:
-        <dd><input type=text size=30 name=slug>
-        <dt>Text:
-        <dd><textarea name=body rows=5 cols=40></textarea>
-        <dd><input type=submit value=Share>
-      </dl>
-    </form>
-    <hr>
-  {% endif %}
   <ul class=articles>
   {% for article in articles %}
-    <li><h2>{{ article.title }}</h2>{{ article.body|safe }}</li>
+    <li><h2><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h2>{{ article.body|safe }}</li>
   {% else %}
     <li><em>Unbelievable.  No articles here so far!</em></li>
   {% endfor %}

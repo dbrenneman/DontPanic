@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block page_title %}Blog | {% endblock %}
+{% block blog_highlight %}active{% endblock %}
+
+{% block content %}
+  {% if session.logged_in %}
+    <form action="{{ url_for('add_article') }}" method=post class=add-article>
+      <dl>
+        <dt>Author:
+        <dd><input type=text size=30 name=author>
+        <dt>Title:
+        <dd><input type=text size=30 name=title>
+        <dt>Slug:
+        <dd><input type=text size=30 name=slug>
+        <dt>Body:
+        <dd><textarea name=body rows=5 cols=40></textarea>
+        <dd><input type=submit value=Share>
+      </dl>
+    </form>
+    <hr>
+  {% endif %}
+{% endblock %}

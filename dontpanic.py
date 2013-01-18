@@ -68,28 +68,34 @@ def show_homepage():
 
 @app.route('/blog')
 def show_articles():
-    cur = g.db.execute('select title, body, published from articles order by published')
-    articles = [dict(title=row[0], body=row[1], published=row[2]) for row in cur.fetchall()]
+    cur = g.db.execute('select title, body, slug, published from articles order by published')
+    articles = [dict(title=row[0], body=row[1], slug=row[2], published=row[3]) for row in cur.fetchall()]
     return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
 
 
-@app.route('/blog/add', methods=['POST'])
+@app.route('/blog/add', methods=['GET', 'POST'])
 def add_article():
     if not session.get('logged_in'):
         abort(401)
-    g.db.execute('insert into articles (author, title, slug, body) values (?, ?, ?, ?)',
-                 [request.form['author'], request.form['title'], request.form['slug'], request.form['body']])
-    g.db.commit()
-    flash('New article was successfully posted')
-    return redirect(url_for('show_articles'))
+    if request.method == 'POST':
+        g.db.execute('insert into articles (author, title, slug, body) values (?, ?, ?, ?)',
+                     [request.form['author'], request.form['title'], request.form['slug'], request.form['body']])
+        g.db.commit()
+        flash('New article was successfully posted')
+        return redirect(url_for('show_articles'))
+    else:
+        title = "Add Article | "
+        return render_template('blog_add.html',
+                               page_title=title,
+                               year=YEAR)
 
 
 @app.route('/blog/<slug>')
 def show_article(slug):
-    query = "select title, body, published from articles where slug='%s' order by published desc"  % slug
+    query = "select title, body, slug, published from articles where slug='%s' order by published desc"  % slug
     cur = g.db.execute(query)
     article = None
-    articles = [dict(title=row[0], body=row[1], published=row[2]) for row in cur.fetchall()]
+    articles = [dict(title=row[0], body=row[1], slug=row[2], published=row[3]) for row in cur.fetchall()]
     if articles:
         article = articles[0]
         title = article['title']  + ' | '
@@ -112,7 +118,7 @@ def login():
         else:
             session['logged_in'] = True
             flash('You were logged in')
-            return redirect(url_for('show_articles'))
+            return redirect(url_for('add_article'))
     return render_template('login.html', error=error)
 
 
