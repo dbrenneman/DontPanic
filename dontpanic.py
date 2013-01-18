@@ -5,7 +5,7 @@
 
     A blog based on Armin Ronacher's Flaskr example app.
 
-    :copyright: (c) 2012 by David Brenneman
+    :copyright: (c) 2013 by David Brenneman
     :license: BSD, see LICENSE for more details.
 """
 from __future__ import with_statement
