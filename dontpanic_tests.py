@@ -3,9 +3,9 @@
     DontPanic Tests
     ~~~~~~~~~~~~
 
-    Tests the DontPanic application.
+    Tests for the DontPanic application.
 
-    :copyright: (c) 2012 by David Brenneman.
+    :copyright: (c) 2013 by David James Brenneman.
     :license: BSD, see LICENSE for more details.
 """
 import os

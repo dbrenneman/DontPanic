@@ -5,7 +5,9 @@
 {% block content %}
   <ul class=articles>
   {% for article in articles %}
-    <li><h2><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h2>{{ article.body|safe }}</li>
+    <li>
+      <h2><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h2>{{ article.body|safe }}<hr>
+    </li>
   {% else %}
     <li><em>Unbelievable.  No articles here so far!</em></li>
   {% endfor %}

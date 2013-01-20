@@ -3,7 +3,7 @@
 body {
   padding-top: 20px;
   padding-bottom: 40px;
-  border-top: 6px solid #f4424e;
+  border-top: 6px solid #cc022f;
 }
 
 .container-narrow {
@@ -12,9 +12,9 @@ body {
 }
 
 a:link {
-  color:#f4424e;
+  color:#cc022f;
 }
 
 a:visited {
-  color:#000000;
+  color:#838181;
 }
