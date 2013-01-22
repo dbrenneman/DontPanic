@@ -2,7 +2,7 @@ from __future__ import with_statement
 from fabric.api import *
 from fabric.contrib.console import confirm
 
-env.hosts = ['davidbrenneman.com']
+env.hosts = ['horus.davidbrenneman.com']
 
 
 def test():
@@ -20,4 +20,4 @@ def deploy():
             run("git clone git://github.com/dbrenneman/DontPanic.git %s" % code_dir)
     with cd(code_dir):
         run("git pull")
-        sudo("supervisorctl restart all")
+        sudo("/usr/bin/supervisorctl restart all")
