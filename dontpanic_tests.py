@@ -63,14 +63,13 @@ class DontPanicTestCase(unittest.TestCase):
         self.login(dontpanic.app.config['USERNAME'],
                    dontpanic.app.config['PASSWORD'])
         rv = self.app.post('/blog/add', data=dict(
-            author='david',
             title='<Hello>',
             slug='hello',
             body='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
         assert 'Unbelievable' not in rv.data
         assert '&lt;Hello&gt;' in rv.data
-        assert '<strong>HTML</strong> allowed here' in rv.data
+        assert 'New article was successfully posted' in rv.data
 
 
 if __name__ == '__main__':

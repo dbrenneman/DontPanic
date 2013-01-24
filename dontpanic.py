@@ -78,9 +78,10 @@ def add_article():
     if not session.get('logged_in'):
         abort(401)
     if request.method == 'POST':
-        g.db.execute('insert into articles (author, title, slug, body, published) values (?, ?, ?, ?, ?)',
-                     [request.form['author'], request.form['title'],
-                      request.form['slug'], request.form['body'], datetime.datetime.now()])
+        g.db.execute('insert into articles (title, slug, body) values (?, ?, ?)',
+                     [request.form['title'],
+                      request.form['slug'],
+                      request.form['body']])
         g.db.commit()
         flash('New article was successfully posted')
         return redirect(url_for('show_articles'))

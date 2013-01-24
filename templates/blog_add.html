@@ -6,8 +6,6 @@
   {% if session.logged_in %}
     <form action="{{ url_for('add_article') }}" method=post class=add-article>
       <dl>
-        <dt>Author:
-        <dd><input type=text size=30 name=author>
         <dt>Title:
         <dd><input type=text size=30 name=title>
         <dt>Slug:
