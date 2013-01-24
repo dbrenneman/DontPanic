@@ -3,17 +3,6 @@
 {% block blog_highlight %}active{% endblock %}
 
 {% block content %}
-<header class="jumbotron subhead">
-  <h2>{{ article.title }}</h2>
-  <p class="lead">{{ article.subtitle }}</p>
-</header>
+<h3>{{ article.title }}</h3>
 {{ article.body }}
-<ul class="pager">
-  <li class="previous">
-    <a href="#">&larr; Older</a>
-  </li>
-  <li class="next">
-    <a href="#">Newer &rarr;</a>
-  </li>
-</ul>
 {% endblock %}

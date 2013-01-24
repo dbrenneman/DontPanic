@@ -17,9 +17,10 @@
     <div class="container-narrow content">
         <div class="navbar">
         <ul class="nav  pull-right">
-          <li class="{% block home_highlight %}{% endblock %}"><a href="/"><i class="icon-home"></i>Home</a></li>
-          <li class="{% block blog_highlight %}{% endblock %}"><a href="/blog"><i class="icon-comments"></i>Blog</a></li>
+          <li class="{% block home_highlight %}{% endblock %}"><a href="{{ url_for('show_homepage')}}"><i class="icon-home"></i>Home</a></li>
+          <li class="{% block blog_highlight %}{% endblock %}"><a href="{{ url_for('show_articles')}}"><i class="icon-comments"></i>Blog</a></li>
           {% if session.logged_in %}
+          <li class="{% block add_article_highlight %}{% endblock %}"><a href="{{ url_for('add_article') }}"><i class="icon-share"></i>Add Article</a></li>
           <li><a href="{{ url_for('logout') }}"><i class="icon-remove-sign"></i>Logout</a></li>
           {% endif %}
         </ul>

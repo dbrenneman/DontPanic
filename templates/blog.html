@@ -6,7 +6,7 @@
   <ul class=articles>
   {% for article in articles %}
     <li>
-      <h3><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h3>{{ article.published }}<hr>
+      <h3><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h3><p>{{ article.published }}</p>
     </li>
   {% else %}
     <li><em>Unbelievable.  No articles here so far!</em></li>
