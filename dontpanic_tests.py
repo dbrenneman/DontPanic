@@ -58,19 +58,21 @@ class DontPanicTestCase(unittest.TestCase):
                         dontpanic.app.config['PASSWORD'] + 'x')
         assert 'Invalid password' in rv.data
 
-    def test_messages(self):
-        """Test that posts work."""
+    def test_articles(self):
+        """Test that posting articles works."""
         self.login(dontpanic.app.config['USERNAME'],
                    dontpanic.app.config['PASSWORD'])
+        slug = 'hello'
         rv = self.app.post('/blog/add', data=dict(
             title='<Hello>',
-            slug='hello',
+            slug=slug,
             body='<strong>HTML</strong> allowed here'
         ), follow_redirects=True)
         assert 'Unbelievable' not in rv.data
         assert '&lt;Hello&gt;' in rv.data
         assert 'New article was successfully posted' in rv.data
-
+        rv = self.app.get('/blog/' + slug)
+        assert '<strong>HTML</strong> allowed here' in rv.data
 
 if __name__ == '__main__':
     unittest.main()
