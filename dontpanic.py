@@ -12,6 +12,7 @@ from __future__ import with_statement
 import datetime
 import os
 from sqlite3 import dbapi2 as sqlite3
+import markdown
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, _app_ctx_stack
 
@@ -68,8 +69,8 @@ def show_homepage():
 
 @app.route('/blog')
 def show_articles():
-    cur = g.db.execute('select title, body, slug, published from articles order by published')
-    articles = [dict(title=row[0], body=row[1], slug=row[2], published=row[3]) for row in cur.fetchall()]
+    cur = g.db.execute('select title, slug, published from articles order by published')
+    articles = [dict(title=row[0], slug=row[1], published=row[2]) for row in cur.fetchall()]
     return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
 
 
@@ -100,10 +101,11 @@ def show_article(slug):
     articles = [dict(title=row[0], body=row[1], slug=row[2], published=row[3]) for row in cur.fetchall()]
     if articles:
         article = articles[0]
-        title = article['title']  + ' | '
+        article['body'] = markdown.markdown(article['body'], output_format="html5")
+        page_title = article['title']  + ' | '
         return render_template('blog_page.html',
                                article=article,
-                               page_title=title,
+                               page_title=page_title,
                                year=YEAR)
     else:
         abort(404)
