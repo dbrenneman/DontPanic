@@ -10,11 +10,13 @@
 """
 from __future__ import with_statement
 import datetime
-import os
-from sqlite3 import dbapi2 as sqlite3
 import markdown
+import os
+import sqlite3
+from urlparse import urljoin
 from flask import Flask, request, session, g, redirect, url_for, abort, \
     render_template, flash, _app_ctx_stack
+from werkzeug.contrib.atom import AtomFeed
 
 # configuration
 YEAR = datetime.datetime.now().year
@@ -28,6 +30,10 @@ PASSWORD = 'default'
 app = Flask(__name__)
 app.config.from_object(__name__)
 app.config.from_envvar('DONTPANIC_SETTINGS', silent=True)
+
+
+def make_external(url):
+    return urljoin(request.url_root, url)
 
 
 def init_db():
@@ -45,7 +51,9 @@ def connect_db():
     """
     top = _app_ctx_stack.top
     if not hasattr(top, 'sqlite_db'):
-        top.sqlite_db = sqlite3.connect(app.config['DATABASE'])
+        top.sqlite_db = sqlite3.dbapi2.connect(app.config['DATABASE'],
+                                               detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES,
+                                               )
     return top.sqlite_db
 
 
@@ -74,15 +82,39 @@ def show_articles():
     return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
 
 
+@app.route('/blog/recent.atom')
+def recent_feed():
+    feed = AtomFeed('Recent Articles',
+                    feed_url=request.url, url=request.url_root)
+    cur = g.db.execute('select title, slug, body, updated as "updated [timestamp]", published as "published [timestamp]" from articles order by updated')
+    articles = [dict(title=row[0],
+                     slug=row[1],
+                     body=row[2],
+                     updated=row[3],
+                     published=row[4]) for row in cur.fetchall()]
+    for article in articles:
+        feed.add(article['title'], unicode(article['body']),
+                 content_type='html',
+                 author='David Brenneman',
+                 url=make_external(url_for('show_article', slug=article['slug'])),
+                 updated=article['updated'],
+                 published=article['published'])
+    return feed.get_response()
+
+
 @app.route('/blog/add', methods=['GET', 'POST'])
 def add_article():
     if not session.get('logged_in'):
         abort(401)
     if request.method == 'POST':
-        g.db.execute('insert into articles (title, slug, body) values (?, ?, ?)',
+        now = datetime.datetime.now()
+        g.db.execute('insert into articles (title, slug, body, updated, published) values (?, ?, ?, ?, ?)',
                      [request.form['title'],
                       request.form['slug'],
-                      request.form['body']])
+                      request.form['body'],
+                      now,
+                      now
+                      ])
         g.db.commit()
         flash('New article was successfully posted')
         return redirect(url_for('show_articles'))

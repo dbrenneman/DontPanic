@@ -1,7 +1,8 @@
 create table if not exists articles (
   id integer primary key autoincrement,
-  slug string not null,
-  title string not null,
-  body string not null,
-  published date default current_date
+  slug text not null,
+  title text not null,
+  body text not null,
+  updated timestamp not null,
+  published timestamp not null
 );
