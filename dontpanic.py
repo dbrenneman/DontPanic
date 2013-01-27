@@ -78,7 +78,9 @@ def show_homepage():
 @app.route('/blog')
 def show_articles():
     cur = g.db.execute('select title, slug, published from articles order by published')
-    articles = [dict(title=row[0], slug=row[1], published=row[2]) for row in cur.fetchall()]
+    articles = [dict(title=row[0],
+                     slug=row[1],
+                     published=row[2].strftime('%d %B, %Y')) for row in cur.fetchall()]
     return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
 
 
@@ -127,10 +129,12 @@ def add_article():
 
 @app.route('/blog/<slug>')
 def show_article(slug):
-    query = "select title, body, slug, published from articles where slug='%s' order by published desc"  % slug
-    cur = g.db.execute(query)
+    cur = g.db.execute("select title, body, slug, published from articles where slug=? order by published desc", [slug])
     article = None
-    articles = [dict(title=row[0], body=row[1], slug=row[2], published=row[3]) for row in cur.fetchall()]
+    articles = [dict(title=row[0],
+                     body=row[1],
+                     slug=row[2],
+                     published=row[3].strftime('%d %B, %Y')) for row in cur.fetchall()]
     if articles:
         article = articles[0]
         article['body'] = markdown.markdown(article['body'], output_format="html5")

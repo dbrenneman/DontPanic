@@ -3,10 +3,10 @@
 {% block blog_highlight %}active{% endblock %}
 
 {% block content %}
-  <ul class=articles>
+  <ul class="unstyled">
   {% for article in articles %}
     <li>
-      <h3><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a></h3><p>{{ article.published }}</p>
+      <h3><a href="{{ url_for('show_article', slug=article.slug) }}">{{ article.title }}</a> <small><em>{{ article.published }}</em></small></h3>
     </li>
   {% else %}
     <li><em>Unbelievable.  No articles here so far!</em></li>

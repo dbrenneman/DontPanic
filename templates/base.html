@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" type="text/css" media="screen"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/font-awesome.css') }}" type="text/css" media="screen"/>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/dontpanic.css') }}" type="text/css" media="screen"/>
+    <link href="{{ url_for('recent_feed') }}"
+      rel="alternate"
+      title="Recent Articles" 
+      type="application/atom+xml">
   </head>
   <body>
     <div class="container-narrow content">
@@ -48,6 +52,9 @@
         </li>
         <li>
           <a href="https://github.com/dbrenneman" target="_blank"><i class="icon-github"></i></a>
+        </li>
+        <li>
+          <a href="{{ url_for('recent_feed') }}" target="_blank"><i class="icon-rss"></i></a>
         </li>
         <li>
           <a href="/">&copy; David Brenneman {{ year }}</a>
