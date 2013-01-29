@@ -10,6 +10,7 @@
 """
 from __future__ import with_statement
 import datetime
+from htmlmin.minify import html_minify
 import markdown
 import os
 import sqlite3
@@ -72,7 +73,7 @@ def close_db_connection(exception):
 
 @app.route('/')
 def show_homepage():
-    return render_template('home.html', year=YEAR)
+    return html_minify(render_template('home.html', year=YEAR))
 
 
 @app.route('/blog')
@@ -81,7 +82,9 @@ def show_articles():
     articles = [dict(title=row[0],
                      slug=row[1],
                      published=row[2].strftime('%d %B, %Y')) for row in cur.fetchall()]
-    return render_template('blog.html', articles=articles, page_title='Blog | ', year=YEAR)
+    return html_minify(
+        render_template(
+            'blog.html', articles=articles, page_title='Blog | ', year=YEAR))
 
 
 @app.route('/blog/recent.atom')
@@ -95,7 +98,7 @@ def recent_feed():
                      updated=row[3],
                      published=row[4]) for row in cur.fetchall()]
     for article in articles:
-        feed.add(article['title'], unicode(article['body']),
+        feed.add(article['title'], unicode(markdown.markdown(article['body'])),
                  content_type='html',
                  author='David Brenneman',
                  url=make_external(url_for('show_article', slug=article['slug'])),
@@ -122,9 +125,9 @@ def add_article():
         return redirect(url_for('show_articles'))
     else:
         title = "Add Article | "
-        return render_template('blog_add.html',
-                               page_title=title,
-                               year=YEAR)
+        return html_minify(render_template('blog_add.html',
+                                           page_title=title,
+                                           year=YEAR))
 
 
 @app.route('/blog/<slug>')
@@ -139,10 +142,10 @@ def show_article(slug):
         article = articles[0]
         article['body'] = markdown.markdown(article['body'], output_format="html5")
         page_title = article['title']  + ' | '
-        return render_template('blog_page.html',
-                               article=article,
-                               page_title=page_title,
-                               year=YEAR)
+        return html_minify(render_template('blog_page.html',
+                                           article=article,
+                                           page_title=page_title,
+                                           year=YEAR))
     else:
         abort(404)
 
@@ -159,7 +162,7 @@ def login():
             session['logged_in'] = True
             flash('You were logged in')
             return redirect(url_for('add_article'))
-    return render_template('login.html', error=error)
+    return html_minify(render_template('login.html', error=error))
 
 
 @app.route('/logout')
@@ -171,12 +174,12 @@ def logout():
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404.html'), 404
+    return html_minify(render_template('404.html'), 404)
 
 
 @app.errorhandler(500)
 def application_error(e):
-    return render_template('500.html'), 500
+    return html_minify(render_template('500.html'), 500)
 
 if __name__ == '__main__':
     init_db()

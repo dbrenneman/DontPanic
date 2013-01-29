@@ -1,5 +1,5 @@
 flask
-Flask-SQLAlchemy
+django-htmlmin
 Markdown
 fabric
 uwsgi
