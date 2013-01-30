@@ -52,9 +52,9 @@ def connect_db():
     """
     top = _app_ctx_stack.top
     if not hasattr(top, 'sqlite_db'):
-        top.sqlite_db = sqlite3.dbapi2.connect(app.config['DATABASE'],
-                                               detect_types=sqlite3.PARSE_DECLTYPES|sqlite3.PARSE_COLNAMES,
-                                               )
+        top.sqlite_db = sqlite3.dbapi2.connect(
+            app.config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES | sqlite3.PARSE_COLNAMES,)
     return top.sqlite_db
 
 
@@ -78,10 +78,12 @@ def show_homepage():
 
 @app.route('/blog')
 def show_articles():
-    cur = g.db.execute('select title, slug, published from articles order by published')
-    articles = [dict(title=row[0],
-                     slug=row[1],
-                     published=row[2].strftime('%d %B, %Y')) for row in cur.fetchall()]
+    cur = g.db.execute(
+        'select title, slug, published from articles order by published')
+    articles = [
+        dict(title=row[0],
+             slug=row[1],
+             published=row[2].strftime('%d %B, %Y')) for row in cur.fetchall()]
     return html_minify(
         render_template(
             'blog.html', articles=articles, page_title='Blog | ', year=YEAR))
@@ -89,21 +91,26 @@ def show_articles():
 
 @app.route('/blog/recent.atom')
 def recent_feed():
-    feed = AtomFeed('Recent Articles',
+    feed = AtomFeed('David Brenneman',
                     feed_url=request.url, url=request.url_root)
-    cur = g.db.execute('select title, slug, body, updated as "updated [timestamp]", published as "published [timestamp]" from articles order by updated')
+    cur = g.db.execute(
+        'select title, slug, body, updated as "updated [timestamp]",'
+        ' published as "published [timestamp]" from articles order by updated')
     articles = [dict(title=row[0],
                      slug=row[1],
                      body=row[2],
                      updated=row[3],
                      published=row[4]) for row in cur.fetchall()]
     for article in articles:
-        feed.add(article['title'], unicode(markdown.markdown(article['body'])),
-                 content_type='html',
-                 author='David Brenneman',
-                 url=make_external(url_for('show_article', slug=article['slug'])),
-                 updated=article['updated'],
-                 published=article['published'])
+        body = markdown.markdown(article['body'])
+        feed.add(
+            article['title'],
+            body,
+            content_type='html',
+            author='David Brenneman',
+            url=make_external(url_for('show_article', slug=article['slug'])),
+            updated=article['updated'],
+            published=article['published'])
     return feed.get_response()
 
 
