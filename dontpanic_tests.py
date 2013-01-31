@@ -48,9 +48,11 @@ class DontPanicTestCase(unittest.TestCase):
         """Make sure login and logout works."""
         rv = self.login(dontpanic.app.config['USERNAME'],
                         dontpanic.app.config['PASSWORD'])
-        assert '<form action="/blog/add" class="add-article" method="post">' in rv.data
+        assert ('<form action="/blog/add" class="add-article" method="post">'
+                ) in rv.data
         rv = self.logout()
-        assert '<form action="/blog/add" class="add-article" method="post">' not in rv.data
+        assert ('<form action="/blog/add" class="add-article" method="post">'
+                ) not in rv.data
         rv = self.login(dontpanic.app.config['USERNAME'] + 'x',
                         dontpanic.app.config['PASSWORD'])
         assert 'Invalid username' in rv.data

@@ -120,7 +120,8 @@ def add_article():
         abort(401)
     if request.method == 'POST':
         now = datetime.datetime.now()
-        g.db.execute('insert into articles (title, slug, body, updated, published) values (?, ?, ?, ?, ?)',
+        g.db.execute(('insert into articles (title, slug, body, updated, '
+                      'published) values (?, ?, ?, ?, ?)'),
                      [request.form['title'],
                       request.form['slug'],
                       request.form['body'],
@@ -139,15 +140,18 @@ def add_article():
 
 @app.route('/blog/<slug>')
 def show_article(slug):
-    cur = g.db.execute("select title, body, slug, published from articles where slug=? order by published desc", [slug])
+    cur = g.db.execute(('select title, body, slug, published from articles '
+                        'where slug=? order by published desc'), [slug])
     article = None
-    articles = [dict(title=row[0],
-                     body=row[1],
-                     slug=row[2],
-                     published=row[3].strftime('%d %B, %Y')) for row in cur.fetchall()]
+    articles = [
+        dict(title=row[0],
+             body=row[1],
+             slug=row[2],
+             published=row[3].strftime('%d %B, %Y')) for row in cur.fetchall()]
     if articles:
         article = articles[0]
-        article['body'] = markdown.markdown(article['body'], output_format="html5")
+        article['body'] = markdown.markdown(
+            article['body'], output_format="html5")
         page_title = article['title']  + ' | '
         return html_minify(render_template('blog_page.html',
                                            article=article,
